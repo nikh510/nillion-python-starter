@@ -1,46 +1,31 @@
 from nada_dsl import *
 
-def nada_main():
-    # Initialize parties
-    party1 = Party(name="Party1")
-
-    # Define input integers
-    my_int1 = SecretInteger(Input(name="my_int1", party=party1))
-    my_int2 = SecretInteger(Input(name="my_int2", party=party1))
-    my_int3 = SecretInteger(Input(name="my_int3", party=party1))
-    my_int4 = SecretInteger(Input(name="my_int4", party=party1))
-
-    # Perform arithmetic operations
-    # Addition
-    add_result = my_int1 + my_int2 + my_int3 + my_int4
+def transfer_transaction(sender_party, receiver_party, transfer_amount):
+    # Define parties
+    sender = Party(name=sender_party)
+    receiver = Party(name=receiver_party)
     
-    # Subtraction
-    sub_result = my_int1 - my_int2 - my_int3 - my_int4
+    # Define wallet balances (initial amounts)
+    sender_balance = SecretInteger(Input(name="sender_balance", party=sender))
+    receiver_balance = SecretInteger(Input(name="receiver_balance", party=receiver))
     
-    # Multiplication
-    mul_result = my_int1 * my_int2 * my_int3 * my_int4
+    # Perform secure computation for the transaction
+    new_sender_balance = sender_balance - transfer_amount
+    new_receiver_balance = receiver_balance + transfer_amount
     
-    # Division
-    div_result = my_int1 / my_int2 / my_int3 / my_int4  # Secure division in NADA
-    
-    # Modulus
-    mod_result = my_int1 % my_int2 % my_int3 % my_int4  # Secure modulus operation in NADA
-    
-   
-
-    # Output the results
+    # Output the new balances securely
     return [
-        Output(add_result, "add_output", party1),
-        Output(sub_result, "sub_output", party1),
-        Output(mul_result, "mul_output", party1),
-        Output(div_result, "div_output", party1),
-        Output(mod_result, "mod_output", party1)
-        
+        Output(new_sender_balance, "new_sender_balance", sender),
+        Output(new_receiver_balance, "new_receiver_balance", receiver)
     ]
 
 if __name__ == "__main__":
-    nada_main()
-
-
+    # Simulate a transaction between two parties
+    sender_party = "Party1"
+    receiver_party = "Party2"
+    transfer_amount = SecretInteger(Input(name="transfer_amount", party=sender_party))  # Use Input for the transfer amount
+    
+    transaction_result = transfer_transaction(sender_party, receiver_party, transfer_amount)
+    print("Transaction result:", transaction_result)
 
 
