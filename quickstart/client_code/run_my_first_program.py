@@ -1,19 +1,23 @@
 from nada_dsl import *
 
 def nada_main():
-    # Initialize the parties involved
     party1 = Party(name="Party1")
-    
-    # Define the secret integers with input from party1
-    my_int1 = SecretInteger(Input(name="my_int1", party=party1))
-    my_int2 = SecretInteger(Input(name="my_int2", party=party1))
 
-    # Perform computation using my_int1 and my_int2
-    # For example, let's add the two integers
-    result = my_int1 + my_int2
+    input_string = Input(name="input_string", party=party1)
+
     
-    # Output the result
-    return [Output(result, "my_output", party1)]
+    unique_chars = []
+    result_string = ""
+
+    
+    for char in input_string:
+        if char not in unique_chars:
+            unique_chars.append(char)
+            # Modify this line to add a specific word next to each unique character
+            result_string += f"{char}word "  # Replace 'word' with your desired word
+
+    return [Output(result_string, "output_string", party1)]
 
 if __name__ == "__main__":
     nada_main()
+
