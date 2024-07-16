@@ -1,23 +1,40 @@
 from nada_dsl import *
 
 def nada_main():
+    # Initialize parties
     party1 = Party(name="Party1")
 
-    input_string = Input(name="input_string", party=party1)
-
+    # Define input integers
+    my_int1 = SecretInteger(Input(name="my_int1", party=party1))
+    my_int2 = SecretInteger(Input(name="my_int2", party=party1))
     
-    unique_chars = []
-    result_string = ""
-
+    # Perform different arithmetic operations
+    # Addition
+    add_result = my_int1 + my_int2
     
-    for char in input_string:
-        if char not in unique_chars:
-            unique_chars.append(char)
-            # Modify this line to add a specific word next to each unique character
-            result_string += f"{char}word "  # Replace 'word' with your desired word
+    # Subtraction
+    sub_result = my_int1 - my_int2
+    
+    # Multiplication
+    mul_result = my_int1 * my_int2
+    
+    # Division
+    div_result = my_int1 / my_int2  # Secure division in NADA
+    
+    # Modulus
+    mod_result = my_int1 % my_int2  # Secure modulus operation in NADA
 
-    return [Output(result_string, "output_string", party1)]
+    # Output the results
+    return [
+        Output(add_result, "add_output", party1),
+        Output(sub_result, "sub_output", party1),
+        Output(mul_result, "mul_output", party1),
+        Output(div_result, "div_output", party1),
+        Output(mod_result, "mod_output", party1)
+    ]
 
 if __name__ == "__main__":
     nada_main()
+
+
 
